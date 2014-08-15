@@ -1,0 +1,26 @@
+{
+	"name": "idealistsoft/framework-email",
+	"version": "1.0",
+	"description": "Mailer module for Idealist Framework",
+	"type": "library",
+	"keywords": ["idealist","framework","email"],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "jaredtking",
+			"email": "j@jaredtking.com",
+			"homepage": "http://jaredtking.com"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/idealistsoft/framework-email/issues",
+		"source": "https://github.com/idealistsoft/framework-email"
+	},
+    "autoload": {
+        "psr-0": {"\\": "src/"}
+    },
+	"require": {
+		"php": ">=5.4.0",
+		"swiftmailer/swiftmailer": "v5.0.1"
+	}
+}
