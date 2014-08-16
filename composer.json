@@ -17,10 +17,14 @@
 		"source": "https://github.com/idealistsoft/framework-email"
 	},
     "autoload": {
-        "psr-0": {"\\": "src/"}
+        "psr-0": {"": "src"}
     },
 	"require": {
 		"php": ">=5.4.0",
 		"swiftmailer/swiftmailer": "v5.0.1"
+	},
+	"require-dev": {
+		"satooshi/php-coveralls": "dev-master",
+		"idealistsoft/framework-bootstrap": "dev-master"
 	}
 }

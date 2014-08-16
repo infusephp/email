@@ -6,6 +6,9 @@ use infuse\Util;
 
 use App;
 
+if( !defined( 'EMAIL_QUEUE_NAME' ) )
+	define( 'EMAIL_QUEUE_NAME', 'emails' );
+
 class EmailService
 {
 	private $app;
