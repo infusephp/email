@@ -207,12 +207,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/idealistsoft/framework-bootstrap.git",
-                "reference": "f5c3fc9f7c0804ce75c0d02cf6d9e3e99ef8181e"
+                "reference": "31ae8e93c796ce2025ab28a4aee48b5edd90ffba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/idealistsoft/framework-bootstrap/zipball/f5c3fc9f7c0804ce75c0d02cf6d9e3e99ef8181e",
-                "reference": "f5c3fc9f7c0804ce75c0d02cf6d9e3e99ef8181e",
+                "url": "https://api.github.com/repos/idealistsoft/framework-bootstrap/zipball/31ae8e93c796ce2025ab28a4aee48b5edd90ffba",
+                "reference": "31ae8e93c796ce2025ab28a4aee48b5edd90ffba",
                 "shasum": ""
             },
             "require": {
@@ -247,7 +247,7 @@
                 "framework",
                 "idealist"
             ],
-            "time": "2014-08-16 16:54:48"
+            "time": "2014-08-17 21:10:25"
         },
         {
             "name": "infuse/libs",
