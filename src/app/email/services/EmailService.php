@@ -79,17 +79,11 @@ class EmailService
 		if( $template )
 		{
 			// generate the body
-			$message[ 'emailTemplatesDir' ] = INFUSE_APP_DIR . '/email/templates';
-			$ext = '.tpl';
+			$htmlTemplateFile = 'emails/' . $template;
+			$textTemplateFile = 'emails/text/' . $template;
 
-			$htmlTemplateFile = $message[ 'emailTemplatesDir' ] . '/' . $template . $ext;
-			$textTemplateFile = $message[ 'emailTemplatesDir' ] . '/text/' . $template . $ext;
-
-			if( file_exists( $htmlTemplateFile ) )
-				$message[ 'html' ] = $this->app[ 'view_engine' ]->render( $htmlTemplateFile, $message );
-
-			if( file_exists( $textTemplateFile ) )
-				$message[ 'text' ] = $this->app[ 'view_engine' ]->render( $textTemplateFile, $message );
+			$message[ 'html' ] = $this->app[ 'view_engine' ]->render( $htmlTemplateFile, $message );
+			$message[ 'text' ] = $this->app[ 'view_engine' ]->render( $textTemplateFile, $message );
 		}
 
 		// figure out who email will be from

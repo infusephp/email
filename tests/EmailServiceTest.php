@@ -99,24 +99,17 @@ class EmailServiceTest extends \PHPUnit_Framework_TestCase
 	function testSendEmailTemplate()
 	{
 		$options = [
-			'username' => 'test',
-			'ip' => '127.0.0.1',
-			'subject' => 'Forgot password?',
-			'forgot_link' => 'meh',
+			'who' => 'World',
 			'to' => [
 				[
 					'email' => 'test@example.com',
-					'name' => 'Teddy' ],
-				[
-					'email' => 'test2@example.com',
-					'name' => 'Not Teddy' ] ],
+					'name' => 'Teddy' ] ],
 			'from_email' => 'from+test@example.com',
 			'from_name' => 'Testing'
 		];
+		$result = self::$emailService->sendEmail( 'test', $options );
 
-		$result = self::$emailService->sendEmail( 'forgot-password', $options );
-
-		$this->assertGreaterThan( 0, strlen( $result[ 0 ][ 'html' ] ) );
-		$this->assertGreaterThan( 0, strlen( $result[ 0 ][ 'text' ] ) );
+		$this->assertEquals( '<html>Hello, World!</html>', $result[ 0 ][ 'html' ] );
+		$this->assertEquals( 'Hello, World!', $result[ 0 ][ 'text' ] );
 	}
 }
