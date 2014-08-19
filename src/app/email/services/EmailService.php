@@ -73,17 +73,11 @@ class EmailService
 	 */
 	function sendEmail( $template, array $message )
 	{
-		$html = Util::array_value( $message, 'html' );
-		$text = Util::array_value( $message, 'text' );
-
+		// render the body from the template
 		if( $template )
 		{
-			// generate the body
-			$htmlTemplateFile = 'emails/' . $template;
-			$textTemplateFile = 'emails/text/' . $template;
-
-			$message[ 'html' ] = $this->app[ 'view_engine' ]->render( $htmlTemplateFile, $message );
-			$message[ 'text' ] = $this->app[ 'view_engine' ]->render( $textTemplateFile, $message );
+			$message[ 'html' ] = $this->app[ 'view_engine' ]->render( 'emails/' . $template, $message );
+			$message[ 'text' ] = $this->app[ 'view_engine' ]->render( 'emails/text/' . $template, $message );
 		}
 
 		// figure out who email will be from
@@ -111,10 +105,10 @@ class EmailService
 				$sMessage = \Swift_Message::newInstance( $subject )
 				  ->setFrom( [ $message[ 'from_email' ] => $message[ 'from_name' ] ] )
 				  ->setTo( $to )
-				  ->setBody( $html, 'text/html' );
+				  ->setBody( $message[ 'html' ], 'text/html' );
 				  
-				if( $text )
-					$sMessage->addPart( $text, 'text/plain' );
+				if( isset( $message[ 'text' ] ) )
+					$sMessage->addPart( $message[ 'text' ], 'text/plain' );
 
 				if( isset( $message[ 'headers' ] ) && is_array( $message[ 'headers' ] ) )
 				{
