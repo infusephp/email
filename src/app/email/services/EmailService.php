@@ -102,7 +102,7 @@ class EmailService
 			/* Swift Mailer SMTP */
 			else if( $this->smtp )
 			{
-				$sMessage = \Swift_Message::newInstance( $subject )
+				$sMessage = \Swift_Message::newInstance( $message[ 'subject' ] )
 				  ->setFrom( [ $message[ 'from_email' ] => $message[ 'from_name' ] ] )
 				  ->setTo( $to )
 				  ->setBody( $message[ 'html' ], 'text/html' );
