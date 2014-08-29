@@ -76,8 +76,10 @@ class EmailService
 		// render the body from the template
 		if( $template )
 		{
-			$message[ 'html' ] = $this->app[ 'view_engine' ]->render( 'emails/' . $template, $message );
-			$message[ 'text' ] = $this->app[ 'view_engine' ]->render( 'emails/text/' . $template, $message );
+			if( !isset( $message[ 'html' ] ) )
+				$message[ 'html' ] = $this->app[ 'view_engine' ]->render( 'emails/' . $template, $message );
+			if( !isset( $message[ 'text' ] ) )
+				$message[ 'text' ] = $this->app[ 'view_engine' ]->render( 'emails/text/' . $template, $message );
 		}
 
 		// figure out who email will be from
