@@ -109,7 +109,7 @@ class EmailServiceTest extends \PHPUnit_Framework_TestCase
         ];
         $result = self::$emailService->sendEmail( 'test', $options );
 
-        $this->assertEquals( '<html>Hello, World!</html>', $result[ 0 ][ 'html' ] );
-        $this->assertEquals( 'Hello, World!', $result[ 0 ][ 'text' ] );
+        $this->assertEquals( "<html>Hello, World!</html>\n", $result[ 0 ][ 'html' ] );
+        $this->assertEquals( "Hello, World!\n", $result[ 0 ][ 'text' ] );
     }
 }
