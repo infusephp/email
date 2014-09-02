@@ -1,6 +1,5 @@
 {
 	"name": "idealistsoft/framework-email",
-	"version": "1.0",
 	"description": "Mailer module for Idealist Framework",
 	"type": "library",
 	"keywords": ["idealist","framework","email"],
