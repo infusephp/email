@@ -1,11 +1,7 @@
 <phpunit colors="true" bootstrap="tests/bootstrap.php">
   <listeners>
     <listener file="vendor/autoload.php"></listener>
-    <listener class="\TestBootstrap">
-      <arguments>
-        <boolean>false</boolean>
-      </arguments>
-    </listener>
+    <listener class="\TestBootstrap"></listener>
   </listeners>
 
   <testsuites>
@@ -22,9 +18,6 @@
   <filter>
     <whitelist addUncoveredFilesFromWhitelist="true">
       <directory suffix=".php">src</directory>
-      <exclude>
-        <directory suffix=".php">src/*/migrations</directory>
-      </exclude>
     </whitelist>
   </filter>
 </phpunit>

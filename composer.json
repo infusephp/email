@@ -17,7 +17,7 @@
 		"source": "https://github.com/idealistsoft/framework-email"
 	},
     "autoload": {
-        "psr-0": {"": "src"}
+        "psr-4": {"app\\email\\": "src/"}
     },
 	"require": {
 		"php": ">=5.4.0",
