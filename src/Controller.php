@@ -2,21 +2,12 @@
 
 namespace app\email;
 
-use App;
+use InjectApp;
 use app\email\services\EmailService;
 
 class Controller
 {
-    public static $properties = [
-        'routes' => []
-    ];
-
-    private $app;
-
-    public function __construct(App $app)
-    {
-        $this->app = $app;
-    }
+    use InjectApp;
 
     public function middleware($req, $res)
     {
