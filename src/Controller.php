@@ -2,12 +2,11 @@
 
 namespace app\email;
 
-use InjectApp;
 use app\email\services\EmailService;
 
 class Controller
 {
-    use InjectApp;
+    use \InjectApp;
 
     public function middleware($req, $res)
     {
