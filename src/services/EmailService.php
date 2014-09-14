@@ -2,7 +2,7 @@
 
 namespace app\email\services;
 
-use infuse\Util;
+use infuse\Utility as U;
 
 use App;
 
@@ -22,8 +22,8 @@ class EmailService
     {
         $this->app = $app;
 
-        $this->fromEmail = Util::array_value( $settings, 'from_email' );
-        $this->fromName = Util::array_value( $settings, 'from_name' );
+        $this->fromEmail = U::array_value( $settings, 'from_email' );
+        $this->fromName = U::array_value( $settings, 'from_name' );
 
         if ($settings[ 'type' ] == 'smtp') {
             $transport = \Swift_SmtpTransport::newInstance( $settings[ 'host' ], $settings[ 'port' ] )
