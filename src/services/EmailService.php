@@ -3,6 +3,7 @@
 namespace app\email\services;
 
 use infuse\Utility as U;
+use infuse\View;
 
 use App;
 
@@ -70,10 +71,15 @@ class EmailService
     {
         // render the body from the template
         if ($template) {
-            if( !isset( $message[ 'html' ] ) )
-                $message[ 'html' ] = $this->app[ 'view_engine' ]->render( 'emails/' . $template, $message );
-            if( !isset( $message[ 'text' ] ) )
-                $message[ 'text' ] = $this->app[ 'view_engine' ]->render( 'emails/text/' . $template, $message );
+            if(!isset($message['html'])) {
+                $htmlView = new View('emails/' . $template, $message);
+                $message[ 'html' ] = $htmlView->render();
+            }
+
+            if(!isset($message['text'])) {
+                $textView = new View('emails/text/' . $template, $message);
+                $message[ 'text' ] = $textView->render();
+            }
         }
 
         // figure out who email will be from
