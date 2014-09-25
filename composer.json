@@ -23,8 +23,7 @@
 		"swiftmailer/swiftmailer": "v5.0.1"
 	},
 	"require-dev": {
-		"satooshi/php-coveralls": "dev-master",
-		"idealistsoft/framework-bootstrap": "dev-master"
-	},
-	"minimum-stability": "dev"
+		"idealistsoft/framework-bootstrap": "~1.0",
+		"satooshi/php-coveralls": "0.6.1"
+	}
 }
