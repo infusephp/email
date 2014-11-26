@@ -23,7 +23,7 @@
 		"swiftmailer/swiftmailer": "v5.0.1"
 	},
 	"require-dev": {
-		"idealistsoft/framework-bootstrap": "~1.0",
+		"idealistsoft/framework-bootstrap": "~1.1",
 		"satooshi/php-coveralls": "0.6.1"
 	}
 }
