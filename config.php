@@ -1,5 +1,5 @@
 <?php
 
 return [
-	'views' => [
-		'engine' => 'php' ]];
+    'views' => [
+        'engine' => 'php', ]];

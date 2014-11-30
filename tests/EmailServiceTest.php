@@ -9,7 +9,7 @@ class EmailServiceTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$emailService = new EmailService( [ 'type' => 'nop' ], TestBootstrap::app() );
+        self::$emailService = new EmailService([ 'type' => 'nop' ], TestBootstrap::app());
 
         // remove queue listeners
         // Queue::configure( [ 'listeners' => [] ] );
@@ -27,17 +27,17 @@ class EmailServiceTest extends \PHPUnit_Framework_TestCase
             'to' => [
                 [
                     'email' => 'test@example.com',
-                    'name' => 'Teddy' ],
+                    'name' => 'Teddy', ],
                 [
                     'email' => 'test2@example.com',
-                    'name' => 'Not Teddy' ] ],
+                    'name' => 'Not Teddy' ], ],
             'from_email' => 'from+test@example.com',
             'from_name' => 'Testing',
             'html' => '<strong>test</strong>',
-            'text' => 'test'
+            'text' => 'test',
         ];
 
-        $this->assertEquals( true, self::$emailService->queueEmail( false, $options ) );
+        $this->assertEquals(true, self::$emailService->queueEmail(false, $options));
 
         // test if in queue
         // TODO
@@ -54,14 +54,14 @@ class EmailServiceTest extends \PHPUnit_Framework_TestCase
                 'to' => [
                     [
                         'email' => 'test@example.com',
-                        'name' => 'Teddy' ],
+                        'name' => 'Teddy', ],
                     [
                         'email' => 'test2@example.com',
-                        'name' => 'Not Teddy' ] ],
+                        'name' => 'Not Teddy' ], ],
                 'to_alt' => [
                     'test@example.com' => 'Teddy',
-                    'test2@example.com' => 'Not Teddy' ],
-                'status' => 'sent' ],
+                    'test2@example.com' => 'Not Teddy', ],
+                'status' => 'sent', ],
             [
                 'html' => '<strong>test</strong>',
                 'text' => 'test',
@@ -70,30 +70,30 @@ class EmailServiceTest extends \PHPUnit_Framework_TestCase
                 'to' => [
                     [
                         'email' => 'test@example.com',
-                        'name' => 'Teddy' ],
+                        'name' => 'Teddy', ],
                     [
                         'email' => 'test2@example.com',
-                        'name' => 'Not Teddy' ] ],
+                        'name' => 'Not Teddy' ], ],
                 'to_alt' => [
                     'test@example.com' => 'Teddy',
-                    'test2@example.com' => 'Not Teddy' ],
-                'status' => 'sent' ] ];
+                    'test2@example.com' => 'Not Teddy', ],
+                'status' => 'sent' ], ];
 
         $options = [
             'to' => [
                 [
                     'email' => 'test@example.com',
-                    'name' => 'Teddy' ],
+                    'name' => 'Teddy', ],
                 [
                     'email' => 'test2@example.com',
-                    'name' => 'Not Teddy' ] ],
+                    'name' => 'Not Teddy' ], ],
             'from_email' => 'from+test@example.com',
             'from_name' => 'Testing',
             'html' => '<strong>test</strong>',
-            'text' => 'test'
+            'text' => 'test',
         ];
 
-        $this->assertEquals( $expected, self::$emailService->sendEmail( false, $options ) );
+        $this->assertEquals($expected, self::$emailService->sendEmail(false, $options));
     }
 
     public function testSendEmailTemplate()
@@ -103,13 +103,13 @@ class EmailServiceTest extends \PHPUnit_Framework_TestCase
             'to' => [
                 [
                     'email' => 'test@example.com',
-                    'name' => 'Teddy' ] ],
+                    'name' => 'Teddy', ], ],
             'from_email' => 'from+test@example.com',
-            'from_name' => 'Testing'
+            'from_name' => 'Testing',
         ];
-        $result = self::$emailService->sendEmail( 'test', $options );
+        $result = self::$emailService->sendEmail('test', $options);
 
-        $this->assertEquals( "<html>Hello, World!</html>\n", $result[ 0 ][ 'html' ] );
-        $this->assertEquals( "Hello, World!\n", $result[ 0 ][ 'text' ] );
+        $this->assertEquals("<html>Hello, World!</html>\n", $result[ 0 ][ 'html' ]);
+        $this->assertEquals("Hello, World!\n", $result[ 0 ][ 'text' ]);
     }
 }
