@@ -61,7 +61,8 @@ class EmailServiceTest extends \PHPUnit_Framework_TestCase
                 'to_alt' => [
                     'test@example.com' => 'Teddy',
                     'test2@example.com' => 'Not Teddy', ],
-                'status' => 'sent', ],
+                'status' => 'sent',
+                'email' => 'test@example.com', ],
             [
                 'html' => '<strong>test</strong>',
                 'text' => 'test',
@@ -77,7 +78,8 @@ class EmailServiceTest extends \PHPUnit_Framework_TestCase
                 'to_alt' => [
                     'test@example.com' => 'Teddy',
                     'test2@example.com' => 'Not Teddy', ],
-                'status' => 'sent' ], ];
+                'status' => 'sent',
+                'email' => 'test2@example.com' ], ];
 
         $options = [
             'to' => [
@@ -93,7 +95,11 @@ class EmailServiceTest extends \PHPUnit_Framework_TestCase
             'text' => 'test',
         ];
 
-        $this->assertEquals($expected, self::$emailService->sendEmail(false, $options));
+        $result = self::$emailService->sendEmail(false, $options);
+        foreach ($result as &$message) {
+            unset($message['_id']);
+        }
+        $this->assertEquals($expected, $result);
     }
 
     public function testSendEmailTemplate()

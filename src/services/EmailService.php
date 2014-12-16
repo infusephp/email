@@ -101,9 +101,8 @@ class EmailService
             /* Mandrill API */
             if ($this->mandrill) {
                 return $this->mandrill->messages->send($message);
-            }
             /* Swift Mailer SMTP */
-            elseif ($this->smtp) {
+            } elseif ($this->smtp) {
                 $sMessage = \Swift_Message::newInstance($message[ 'subject' ])
                   ->setFrom([ $message[ 'from_email' ] => $message[ 'from_name' ] ])
                   ->setTo($to)
@@ -125,12 +124,18 @@ class EmailService
 
                 return array_fill(0, count($to), [
                     'status' => ($sent) ? 'sent' : 'rejected' ]);
-            }
             /* NOP */
-            elseif ($this->nop) {
-                return array_fill(0, count($to), array_replace($message, [
-                    'to_alt' => $to,
-                    'status' => 'sent' ]));
+            } elseif ($this->nop) {
+                $result = [];
+                foreach ($to as $email => $name) {
+                    $result[] = array_replace($message, [
+                        'email' => $email,
+                        '_id' => U::guid(false),
+                        'to_alt' => $to,
+                        'status' => 'sent']);
+                }
+
+                return $result;
             }
         } catch (\Exception $e) {
             $errorStack = $this->app[ 'errors' ];
