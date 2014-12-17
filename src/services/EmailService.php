@@ -93,8 +93,14 @@ class EmailService
 
         // figure out recipients
         $to = [];
-        foreach ((array) $message[ 'to' ] as $item) {
-            $to[ $item[ 'email' ] ] = $item[ 'name' ];
+        $bcc = [];
+        foreach ((array) $message['to'] as $item) {
+            $type = U::array_value($item, 'type');
+            if ($type == 'bcc') {
+                $bcc[$item['email']] = $item['name'];
+            } else {
+                $to[$item['email']] = $item['name'];
+            }
         }
 
         try {
@@ -106,6 +112,7 @@ class EmailService
                 $sMessage = \Swift_Message::newInstance($message[ 'subject' ])
                   ->setFrom([ $message[ 'from_email' ] => $message[ 'from_name' ] ])
                   ->setTo($to)
+                  ->setBcc($bcc)
                   ->setBody($message[ 'html' ], 'text/html');
 
                 if (isset($message[ 'text' ])) {
