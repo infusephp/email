@@ -134,7 +134,7 @@ class EmailService
             /* NOP */
             } elseif ($this->nop) {
                 $result = [];
-                foreach ($to as $email => $name) {
+                foreach (array_merge($to, $bcc) as $email => $name) {
                     $result[] = array_replace($message, [
                         'email' => $email,
                         '_id' => U::guid(false),
