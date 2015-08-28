@@ -10,8 +10,8 @@ class Controller
 
     public function middleware($req, $res)
     {
-        $this->app[ 'mailer' ] = function ($app) {
-            return new EmailService($app[ 'config' ]->get('email'), $app);
+        $this->app['mailer'] = function ($app) {
+            return new EmailService($app['config']->get('email'), $app);
         };
     }
 

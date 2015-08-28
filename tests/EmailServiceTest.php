@@ -9,7 +9,7 @@ class EmailServiceTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$emailService = new EmailService([ 'type' => 'nop' ], TestBootstrap::app());
+        self::$emailService = new EmailService(['type' => 'nop'], TestBootstrap::app());
 
         // remove queue listeners
         // Queue::configure( [ 'listeners' => [] ] );
@@ -124,7 +124,7 @@ class EmailServiceTest extends \PHPUnit_Framework_TestCase
         ];
         $result = self::$emailService->sendEmail('test', $options);
 
-        $this->assertEquals("<html>Hello, World!</html>\n", $result[ 0 ][ 'html' ]);
-        $this->assertEquals("Hello, World!\n", $result[ 0 ][ 'text' ]);
+        $this->assertEquals("<html>Hello, World!</html>\n", $result[0]['html']);
+        $this->assertEquals("Hello, World!\n", $result[0]['text']);
     }
 }
