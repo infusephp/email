@@ -21,6 +21,15 @@ class EmailServiceTest extends \PHPUnit_Framework_TestCase
         // Queue::configure( [ 'listeners' => Config::get( 'queue.listeners' ) ] );
     }
 
+    public function testCompression()
+    {
+        $uncompressed = ['test' => true];
+        $compressed = self::$emailService->compressMessage($uncompressed);
+
+        $this->assertNotEquals($uncompressed, $compressed);
+        $this->assertEquals($uncompressed, self::$emailService->uncompressMessage($compressed));
+    }
+
     public function testQueueEmail()
     {
         $options = [
@@ -30,7 +39,7 @@ class EmailServiceTest extends \PHPUnit_Framework_TestCase
                     'name' => 'Teddy', ],
                 [
                     'email' => 'test2@example.com',
-                    'name' => 'Not Teddy' ], ],
+                    'name' => 'Not Teddy', ], ],
             'from_email' => 'from+test@example.com',
             'from_name' => 'Testing',
             'html' => '<strong>test</strong>',
@@ -57,7 +66,7 @@ class EmailServiceTest extends \PHPUnit_Framework_TestCase
                         'name' => 'Teddy', ],
                     [
                         'email' => 'test2@example.com',
-                        'name' => 'Not Teddy' ], ],
+                        'name' => 'Not Teddy', ], ],
                 'to_alt' => [
                     'test@example.com' => 'Teddy',
                     'test2@example.com' => 'Not Teddy', ],
@@ -74,12 +83,12 @@ class EmailServiceTest extends \PHPUnit_Framework_TestCase
                         'name' => 'Teddy', ],
                     [
                         'email' => 'test2@example.com',
-                        'name' => 'Not Teddy' ], ],
+                        'name' => 'Not Teddy', ], ],
                 'to_alt' => [
                     'test@example.com' => 'Teddy',
                     'test2@example.com' => 'Not Teddy', ],
                 'status' => 'sent',
-                'email' => 'test2@example.com' ], ];
+                'email' => 'test2@example.com', ], ];
 
         $options = [
             'to' => [
@@ -88,7 +97,7 @@ class EmailServiceTest extends \PHPUnit_Framework_TestCase
                     'name' => 'Teddy', ],
                 [
                     'email' => 'test2@example.com',
-                    'name' => 'Not Teddy' ], ],
+                    'name' => 'Not Teddy', ], ],
             'from_email' => 'from+test@example.com',
             'from_name' => 'Testing',
             'html' => '<strong>test</strong>',

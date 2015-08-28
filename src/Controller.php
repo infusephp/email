@@ -17,10 +17,12 @@ class Controller
 
     public function processEmail($queue, $message)
     {
-        // messy hack to convert an object to an array
-        $m = json_decode(json_encode($message->body->m), true);
+        $mailer = $this->app['mailer'];
 
-        if ($this->app[ 'mailer' ]->sendEmail($message->body->t, $m)) {
+        // uncompress the message variables
+        $variables = $mailer->uncompressMessage($message->body->m);
+
+        if ($mailer->sendEmail($message->body->t, $variables)) {
             if ($queue->type() == QUEUE_TYPE_SYNCHRONOUS) {
                 $queue->deleteMessage(EMAIL_QUEUE_NAME, $message);
             }

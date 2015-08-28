@@ -40,7 +40,7 @@ class EmailService
     }
 
     /**
-     * Queues an email
+     * Queues an email.
      *
      * @param string $template name of template
      * @param array  $message
@@ -49,18 +49,20 @@ class EmailService
      */
     public function queueEmail($template, array $message)
     {
+        $message = $this->compressMessage($message);
+
         return $this->app[ 'queue' ]->enqueue(
             EMAIL_QUEUE_NAME,
             [
                 't' => $template,
-                'm' => $message ],
+                'm' => $message, ],
             [
                 'timeout' => 60,
-                'expires_in' => 2592000 ]);
+                'expires_in' => 2592000, ]);
     }
 
     /**
-     * Sends an email
+     * Sends an email.
      *
      * @param string $template name of template
      * @param array  $message
@@ -130,7 +132,7 @@ class EmailService
                 $sent = $this->smtp->send($sMessage);
 
                 return array_fill(0, count($to), [
-                    'status' => ($sent) ? 'sent' : 'rejected' ]);
+                    'status' => ($sent) ? 'sent' : 'rejected', ]);
             /* NOP */
             } elseif ($this->nop) {
                 $result = [];
@@ -139,7 +141,7 @@ class EmailService
                         'email' => $email,
                         '_id' => U::guid(false),
                         'to_alt' => $to,
-                        'status' => 'sent']);
+                        'status' => 'sent', ]);
                 }
 
                 return $result;
@@ -152,5 +154,29 @@ class EmailService
 
             return array_fill(0, count($to), [ 'status' => 'invalid' ]);
         }
+    }
+
+    /**
+     * Compresses message variables.
+     *
+     * @param array $message
+     *
+     * @return string compressed and encoded variables
+     */
+    public function compressMessage(array $message)
+    {
+        return base64_encode(gzcompress(json_encode($message), 9));
+    }
+
+    /**
+     * Uncompresses a message.
+     *
+     * @param string $compressed
+     *
+     * @return array
+     */
+    public function uncompressMessage($compressed)
+    {
+        return json_decode(gzuncompress(base64_decode($compressed)), true);
     }
 }
