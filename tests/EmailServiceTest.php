@@ -2,6 +2,9 @@
 
 use app\email\services\EmailService;
 
+define('INFUSE_BASE_DIR', __DIR__);
+set_include_path(get_include_path().PATH_SEPARATOR.__DIR__);
+
 class EmailServiceTest extends \PHPUnit_Framework_TestCase
 {
     private static $emailService;
@@ -9,7 +12,7 @@ class EmailServiceTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$emailService = new EmailService(['type' => 'nop'], TestBootstrap::app());
+        self::$emailService = new EmailService(['type' => 'nop'], Test::$app);
 
         // remove queue listeners
         // Queue::configure( [ 'listeners' => [] ] );
