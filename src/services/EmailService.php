@@ -2,8 +2,8 @@
 
 namespace app\email\services;
 
-use infuse\Utility as U;
-use infuse\View;
+use Infuse\Utility as U;
+use Infuse\View;
 use App;
 
 if (!defined('EMAIL_QUEUE_NAME')) {
@@ -45,7 +45,7 @@ class EmailService
      * @param string $template name of template
      * @param array  $message
      *
-     * @return boolean
+     * @return bool
      */
     public function queueEmail($template, array $message)
     {
@@ -112,7 +112,7 @@ class EmailService
             /* Swift Mailer SMTP */
             } elseif ($this->smtp) {
                 $sMessage = \Swift_Message::newInstance($message['subject'])
-                  ->setFrom([ $message['from_email'] => $message['from_name']])
+                  ->setFrom([$message['from_email'] => $message['from_name']])
                   ->setTo($to)
                   ->setBcc($bcc)
                   ->setBody($message['html'], 'text/html');
