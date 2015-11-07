@@ -3,6 +3,8 @@
 namespace app\email;
 
 use app\email\services\EmailService;
+use Infuse\Queue;
+use Infuse\Queue\Message;
 
 class Controller
 {
@@ -13,19 +15,18 @@ class Controller
         $this->app['mailer'] = function ($app) {
             return new EmailService($app['config']->get('email'), $app);
         };
+
+        Queue::listen(EmailService::QUEUE_NAME, [$this, 'processEmail']);
     }
 
-    public function processEmail($queue, $message)
+    public function processEmail(Message $message)
     {
         $mailer = $this->app['mailer'];
 
         // uncompress the message variables
-        $variables = $mailer->uncompressMessage($message->body->m);
+        $body = json_decode($message->getBody());
+        $variables = $mailer->uncompressMessage($body->m);
 
-        if ($mailer->sendEmail($message->body->t, $variables)) {
-            if ($queue->type() == QUEUE_TYPE_SYNCHRONOUS) {
-                $queue->deleteMessage(EMAIL_QUEUE_NAME, $message);
-            }
-        }
+        $mailer->sendEmail($body->t, $variables);
     }
 }

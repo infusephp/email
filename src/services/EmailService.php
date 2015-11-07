@@ -2,16 +2,15 @@
 
 namespace app\email\services;
 
+use Infuse\Queue;
 use Infuse\Utility as U;
 use Infuse\View;
 use App;
 
-if (!defined('EMAIL_QUEUE_NAME')) {
-    define('EMAIL_QUEUE_NAME', 'emails');
-}
-
 class EmailService
 {
+    const QUEUE_NAME = 'emails';
+
     private $app;
     private $mandrill;
     private $smtp;
@@ -39,26 +38,35 @@ class EmailService
         }
     }
 
+    public function getQueue()
+    {
+        return new Queue(self::QUEUE_NAME);
+    }
+
     /**
      * Queues an email.
      *
      * @param string $template name of template
      * @param array  $message
      *
-     * @return bool
+     * @return \Infuse\Queue\Message
      */
     public function queueEmail($template, array $message)
     {
         $message = $this->compressMessage($message);
 
-        return $this->app['queue']->enqueue(
-            EMAIL_QUEUE_NAME,
-            [
-                't' => $template,
-                'm' => $message, ],
-            [
-                'timeout' => 60,
-                'expires_in' => 2592000, ]);
+        $body = [
+            't' => $template,
+            'm' => $message,
+        ];
+        $body = json_encode($body);
+
+        $options = [
+            'timeout' => 60,
+            'expires_in' => 2592000,
+        ];
+
+        return $this->getQueue()->enqueue($body, $options);
     }
 
     /**
