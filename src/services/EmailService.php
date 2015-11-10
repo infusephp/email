@@ -61,12 +61,7 @@ class EmailService
         ];
         $body = json_encode($body);
 
-        $options = [
-            'timeout' => 60,
-            'expires_in' => 2592000,
-        ];
-
-        return $this->getQueue()->enqueue($body, $options);
+        return $this->getQueue()->enqueue($body);
     }
 
     /**
