@@ -1,8 +1,8 @@
 <?php
 
-namespace app\email;
+namespace App\Email;
 
-use app\email\services\EmailService;
+use App\Email\Services\EmailService;
 use Infuse\Queue;
 use Infuse\Queue\Message;
 

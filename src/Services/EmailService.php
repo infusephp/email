@@ -1,11 +1,11 @@
 <?php
 
-namespace app\email\services;
+namespace App\Email\Services;
 
+use App;
 use Infuse\Queue;
 use Infuse\Utility as U;
 use Infuse\View;
-use App;
 
 class EmailService
 {

@@ -1,6 +1,6 @@
 <?php
 
-use app\email\services\EmailService;
+use App\Email\Services\EmailService;
 
 define('INFUSE_BASE_DIR', __DIR__);
 set_include_path(get_include_path().PATH_SEPARATOR.__DIR__);
