@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Email\Services;
+namespace App\Email;
 
 use App;
-use Infuse\Queue;
 use Infuse\Utility as U;
+use Infuse\Queue;
+use Infuse\Queue\Message;
 use Infuse\View;
 
-class EmailService
+class MailerService
 {
     const QUEUE_NAME = 'emails';
 
@@ -18,6 +19,10 @@ class EmailService
     private $fromEmail;
     private $fromName;
 
+    /**
+     * @param array $settings
+     * @param App   $app
+     */
     public function __construct(array $settings, App $app)
     {
         $this->app = $app;
@@ -36,6 +41,8 @@ class EmailService
         } elseif ($settings['type'] == 'nop') {
             $this->nop = true;
         }
+
+        Queue::listen(self::QUEUE_NAME, [$this, 'processEmail']);
     }
 
     public function getQueue()
@@ -62,6 +69,20 @@ class EmailService
         $body = json_encode($body);
 
         return $this->getQueue()->enqueue($body);
+    }
+
+    /**
+     * Handles an email message coming off the queue.
+     *
+     * @param Message $message
+     */
+    public function processEmail(Message $message)
+    {
+        // uncompress the message variables
+        $body = json_decode($message->getBody());
+        $variables = $this->uncompressMessage($body->m);
+
+        $this->sendEmail($body->t, $variables);
     }
 
     /**

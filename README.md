@@ -16,3 +16,13 @@ Install the package with [composer](http://getcomposer.org):
 ```
 composer require infuse/email
 ```
+
+Add the email service to your config.php
+
+```php
+'services' => [
+	// ...
+	'mailer' => 'App\Email\Mailer'
+	// ...
+]
+```

@@ -1,27 +1,18 @@
 <?php
 
-use App\Email\Services\EmailService;
+use App\Email\MailerService;
 
 define('INFUSE_BASE_DIR', __DIR__);
 set_include_path(get_include_path().PATH_SEPARATOR.__DIR__);
 
-class EmailServiceTest extends \PHPUnit_Framework_TestCase
+class MailerServiceTest extends PHPUnit_Framework_TestCase
 {
     private static $emailService;
     private static $qListeners;
 
     public static function setUpBeforeClass()
     {
-        self::$emailService = new EmailService(['type' => 'nop'], Test::$app);
-
-        // remove queue listeners
-        // Queue::configure( [ 'listeners' => [] ] );
-    }
-
-    public static function tearDownAfterClass()
-    {
-        // add back queue listeners
-        // Queue::configure( [ 'listeners' => Config::get( 'queue.listeners' ) ] );
+        self::$emailService = new MailerService(['type' => 'nop'], Test::$app);
     }
 
     public function testCompression()
