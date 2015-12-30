@@ -1,18 +1,18 @@
 <?php
 
-use App\Email\MailerService;
+use App\Email\Mailer;
 
 define('INFUSE_BASE_DIR', __DIR__);
 set_include_path(get_include_path().PATH_SEPARATOR.__DIR__);
 
-class MailerServiceTest extends PHPUnit_Framework_TestCase
+class MailerTest extends PHPUnit_Framework_TestCase
 {
     private static $emailService;
     private static $qListeners;
 
     public static function setUpBeforeClass()
     {
-        self::$emailService = new MailerService(['type' => 'nop'], Test::$app);
+        self::$emailService = new Mailer(['type' => 'nop'], Test::$app);
     }
 
     public function testCompression()
