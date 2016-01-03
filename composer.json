@@ -23,7 +23,7 @@
 		"swiftmailer/swiftmailer": "v5.0.1"
 	},
 	"require-dev": {
-		"infuse/bootstrap": "~1.2",
+		"infuse/infuse": "dev-master",
 		"satooshi/php-coveralls": "0.6.1"
 	}
 }

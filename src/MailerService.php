@@ -2,12 +2,13 @@
 
 namespace App\Email;
 
+use Infuse\HasApp;
 use Infuse\Queue;
 use Infuse\Queue\Message;
 
 class MailerService
 {
-    use \InjectApp;
+    use HasApp;
 
     public function __construct($app)
     {

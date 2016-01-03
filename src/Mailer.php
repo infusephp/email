@@ -2,7 +2,7 @@
 
 namespace App\Email;
 
-use App;
+use Infuse\Application;
 use Infuse\Utility as U;
 use Infuse\Queue;
 use Infuse\Queue\Message;
@@ -20,10 +20,10 @@ class Mailer
     private $fromName;
 
     /**
-     * @param array $settings
-     * @param App   $app
+     * @param array       $settings
+     * @param Application $app
      */
-    public function __construct(array $settings, App $app)
+    public function __construct(array $settings, Application $app)
     {
         $this->app = $app;
 

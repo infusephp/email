@@ -1,6 +1,7 @@
 <?php
 
 use App\Email\Mailer;
+use Infuse\Test;
 
 define('INFUSE_BASE_DIR', __DIR__);
 set_include_path(get_include_path().PATH_SEPARATOR.__DIR__);
@@ -40,7 +41,8 @@ class MailerTest extends PHPUnit_Framework_TestCase
             'text' => 'test',
         ];
 
-        $this->assertEquals(true, self::$emailService->queueEmail(false, $options));
+        $message = self::$emailService->queueEmail(false, $options);
+        $this->assertInstanceOf('Infuse\Queue\Message', $message);
 
         // test if in queue
         // TODO
