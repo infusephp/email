@@ -27,8 +27,8 @@ class Mailer
     {
         $this->app = $app;
 
-        $this->fromEmail = U::array_value($settings, 'from_email');
-        $this->fromName = U::array_value($settings, 'from_name');
+        $this->fromEmail = array_value($settings, 'from_email');
+        $this->fromName = array_value($settings, 'from_name');
 
         if ($settings['type'] == 'smtp') {
             $transport = \Swift_SmtpTransport::newInstance($settings['host'], $settings['port'])
@@ -119,7 +119,7 @@ class Mailer
         $to = [];
         $bcc = [];
         foreach ((array) $message['to'] as $item) {
-            $type = U::array_value($item, 'type');
+            $type = array_value($item, 'type');
             if ($type == 'bcc') {
                 $bcc[$item['email']] = $item['name'];
             } else {
