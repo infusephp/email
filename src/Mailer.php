@@ -127,53 +127,46 @@ class Mailer
             }
         }
 
-        try {
-            /* Mandrill API */
-            if ($this->mandrill) {
-                return $this->mandrill->messages->send($message);
-            /* Swift Mailer SMTP */
-            } elseif ($this->smtp) {
-                $sMessage = \Swift_Message::newInstance($message['subject'])
-                  ->setFrom([$message['from_email'] => $message['from_name']])
-                  ->setTo($to)
-                  ->setBcc($bcc)
-                  ->setBody($message['html'], 'text/html');
+        /* Mandrill API */
+        if ($this->mandrill) {
+            return $this->mandrill->messages->send($message);
 
-                if (isset($message['text'])) {
-                    $sMessage->addPart($message['text'], 'text/plain');
-                }
+        /* Swift Mailer SMTP */
+        } elseif ($this->smtp) {
+            $sMessage = \Swift_Message::newInstance($message['subject'])
+              ->setFrom([$message['from_email'] => $message['from_name']])
+              ->setTo($to)
+              ->setBcc($bcc)
+              ->setBody($message['html'], 'text/html');
 
-                if (isset($message['headers']) && is_array($message['headers'])) {
-                    $headers = $sMessage->getHeaders();
-
-                    foreach ($message['headers'] as $k => $v) {
-                        $headers->addTextHeader($k, $v);
-                    }
-                }
-
-                $sent = $this->smtp->send($sMessage);
-
-                return array_fill(0, count($to), ['status' => ($sent) ? 'sent' : 'rejected']);
-            /* NOP */
-            } elseif ($this->nop) {
-                $result = [];
-                foreach (array_merge($to, $bcc) as $email => $name) {
-                    $result[] = array_replace($message, [
-                        'email' => $email,
-                        '_id' => U::guid(false),
-                        'to_alt' => $to,
-                        'status' => 'sent', ]);
-                }
-
-                return $result;
+            if (isset($message['text'])) {
+                $sMessage->addPart($message['text'], 'text/plain');
             }
-        } catch (\Exception $e) {
-            $errorStack = $this->app['errors'];
-            $errorStack->push(['error' => 'email_send_failure']);
 
-            $this->app['logger']->addError($e);
+            if (isset($message['headers']) && is_array($message['headers'])) {
+                $headers = $sMessage->getHeaders();
 
-            return array_fill(0, count($to), ['status' => 'invalid']);
+                foreach ($message['headers'] as $k => $v) {
+                    $headers->addTextHeader($k, $v);
+                }
+            }
+
+            $sent = $this->smtp->send($sMessage);
+
+            return array_fill(0, count($to), ['status' => ($sent) ? 'sent' : 'rejected']);
+
+        /* NOP */
+        } elseif ($this->nop) {
+            $result = [];
+            foreach (array_merge($to, $bcc) as $email => $name) {
+                $result[] = array_replace($message, [
+                    'email' => $email,
+                    '_id' => U::guid(false),
+                    'to_alt' => $to,
+                    'status' => 'sent', ]);
+            }
+
+            return $result;
         }
     }
 
