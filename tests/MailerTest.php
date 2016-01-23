@@ -21,14 +21,15 @@ class MailerTest extends PHPUnit_Framework_TestCase
         self::$mailer = new Mailer($settings);
     }
 
-    public function testService()
-    {
-        $this->assertInstanceOf('App\Email\Mailer', Test::$app['mailer']);
-    }
-
     public function testDriver()
     {
         $this->assertInstanceOf('TestDriver', self::$mailer->getDriver());
+    }
+
+    public function testTypeDeprecated()
+    {
+        $mailer = new Mailer(['type' => 'nop']);
+        $this->assertInstanceOf('App\Email\Driver\NullDriver', $mailer->getDriver());
     }
 
     public function testCompression()

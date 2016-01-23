@@ -11,6 +11,15 @@ class Mailer
     const QUEUE_NAME = 'emails';
 
     /**
+     * @staticvar array
+     */
+    private static $drivers = [
+        'mandrill' => 'App\Email\Driver\MandrillDriver',
+        'nop' => 'App\Email\Driver\NullDriver',
+        'smtp' => 'App\Email\Driver\SwiftDriver',
+    ];
+
+    /**
      * @var array
      */
     private $settings;
@@ -25,9 +34,14 @@ class Mailer
      */
     public function __construct(array $settings)
     {
-        $this->settings = $settings;
+        // deprecated
+        if (!isset($settings['driver']) && isset($settings['type'])) {
+            $settings['driver'] = self::$drivers[$settings['type']];
+        }
+
         $driverClass = $settings['driver'];
         $this->driver = new $driverClass($settings);
+        $this->settings = $settings;
     }
 
     public function getDriver()
