@@ -3,26 +3,41 @@
 use App\Email\Mailer;
 use Infuse\Test;
 
-define('INFUSE_BASE_DIR', __DIR__);
-set_include_path(get_include_path().PATH_SEPARATOR.__DIR__);
+include 'TestDriver.php';
 
 class MailerTest extends PHPUnit_Framework_TestCase
 {
-    private static $emailService;
+    private static $mailer;
     private static $qListeners;
 
     public static function setUpBeforeClass()
     {
-        self::$emailService = new Mailer(['type' => 'nop'], Test::$app);
+        $settings = [
+            'driver' => 'TestDriver',
+            'from_email' => 'from+test@example.com',
+            'from_name' => 'Testing',
+        ];
+
+        self::$mailer = new Mailer($settings);
+    }
+
+    public function testService()
+    {
+        $this->assertInstanceOf('App\Email\Mailer', Test::$app['mailer']);
+    }
+
+    public function testDriver()
+    {
+        $this->assertInstanceOf('TestDriver', self::$mailer->getDriver());
     }
 
     public function testCompression()
     {
         $uncompressed = ['test' => true];
-        $compressed = self::$emailService->compressMessage($uncompressed);
+        $compressed = self::$mailer->compressMessage($uncompressed);
 
         $this->assertNotEquals($uncompressed, $compressed);
-        $this->assertEquals($uncompressed, self::$emailService->uncompressMessage($compressed));
+        $this->assertEquals($uncompressed, self::$mailer->uncompressMessage($compressed));
     }
 
     public function testQueueEmail()
@@ -41,7 +56,7 @@ class MailerTest extends PHPUnit_Framework_TestCase
             'text' => 'test',
         ];
 
-        $message = self::$emailService->queueEmail(false, $options);
+        $message = self::$mailer->queueEmail(false, $options);
         $this->assertInstanceOf('Infuse\Queue\Message', $message);
 
         // test if in queue
@@ -100,7 +115,7 @@ class MailerTest extends PHPUnit_Framework_TestCase
             'text' => 'test',
         ];
 
-        $result = self::$emailService->sendEmail(false, $options);
+        $result = self::$mailer->sendEmail(false, $options);
         foreach ($result as &$message) {
             unset($message['_id']);
         }
@@ -115,10 +130,8 @@ class MailerTest extends PHPUnit_Framework_TestCase
                 [
                     'email' => 'test@example.com',
                     'name' => 'Teddy', ], ],
-            'from_email' => 'from+test@example.com',
-            'from_name' => 'Testing',
         ];
-        $result = self::$emailService->sendEmail('test', $options);
+        $result = self::$mailer->sendEmail('test', $options);
 
         $this->assertEquals("<html>Hello, World!</html>\n", $result[0]['html']);
         $this->assertEquals("Hello, World!\n", $result[0]['text']);

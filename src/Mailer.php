@@ -2,8 +2,6 @@
 
 namespace App\Email;
 
-use Infuse\Application;
-use Infuse\Utility as U;
 use Infuse\Queue;
 use Infuse\Queue\Message;
 use Infuse\View;
@@ -12,35 +10,29 @@ class Mailer
 {
     const QUEUE_NAME = 'emails';
 
-    private $app;
-    private $mandrill;
-    private $smtp;
-    private $nop;
-    private $fromEmail;
-    private $fromName;
+    /**
+     * @var array
+     */
+    private $settings;
 
     /**
-     * @param array       $settings
-     * @param Application $app
+     * @var App\Email\Driver\DriverInterface
      */
-    public function __construct(array $settings, Application $app)
+    private $driver;
+
+    /**
+     * @param array $settings
+     */
+    public function __construct(array $settings)
     {
-        $this->app = $app;
+        $this->settings = $settings;
+        $driverClass = $settings['driver'];
+        $this->driver = new $driverClass($settings);
+    }
 
-        $this->fromEmail = array_value($settings, 'from_email');
-        $this->fromName = array_value($settings, 'from_name');
-
-        if ($settings['type'] == 'smtp') {
-            $transport = \Swift_SmtpTransport::newInstance($settings['host'], $settings['port'])
-              ->setUsername($settings['username'])
-              ->setPassword($settings['password']);
-
-            $this->smtp = \Swift_Mailer::newInstance($transport);
-        } elseif ($settings['type'] == 'mandrill') {
-            $this->mandrill = new \Mandrill($settings['key']);
-        } elseif ($settings['type'] == 'nop') {
-            $this->nop = true;
-        }
+    public function getDriver()
+    {
+        return $this->driver;
     }
 
     public function getQueue()
@@ -106,68 +98,16 @@ class Mailer
             }
         }
 
-        // figure out who email will be from
+        // set missing from information
         if (!isset($message['from_email'])) {
-            $message['from_email'] = $this->fromEmail;
+            $message['from_email'] = array_value($this->settings, 'from_email');
         }
 
         if (!isset($message['from_name'])) {
-            $message['from_name'] = $this->fromName;
+            $message['from_name'] = array_value($this->settings, 'from_name');
         }
 
-        // figure out recipients
-        $to = [];
-        $bcc = [];
-        foreach ((array) $message['to'] as $item) {
-            $type = array_value($item, 'type');
-            if ($type == 'bcc') {
-                $bcc[$item['email']] = $item['name'];
-            } else {
-                $to[$item['email']] = $item['name'];
-            }
-        }
-
-        /* Mandrill API */
-        if ($this->mandrill) {
-            return $this->mandrill->messages->send($message);
-
-        /* Swift Mailer SMTP */
-        } elseif ($this->smtp) {
-            $sMessage = \Swift_Message::newInstance($message['subject'])
-              ->setFrom([$message['from_email'] => $message['from_name']])
-              ->setTo($to)
-              ->setBcc($bcc)
-              ->setBody($message['html'], 'text/html');
-
-            if (isset($message['text'])) {
-                $sMessage->addPart($message['text'], 'text/plain');
-            }
-
-            if (isset($message['headers']) && is_array($message['headers'])) {
-                $headers = $sMessage->getHeaders();
-
-                foreach ($message['headers'] as $k => $v) {
-                    $headers->addTextHeader($k, $v);
-                }
-            }
-
-            $sent = $this->smtp->send($sMessage);
-
-            return array_fill(0, count($to), ['status' => ($sent) ? 'sent' : 'rejected']);
-
-        /* NOP */
-        } elseif ($this->nop) {
-            $result = [];
-            foreach (array_merge($to, $bcc) as $email => $name) {
-                $result[] = array_replace($message, [
-                    'email' => $email,
-                    '_id' => U::guid(false),
-                    'to_alt' => $to,
-                    'status' => 'sent', ]);
-            }
-
-            return $result;
-        }
+        return $this->driver->send($message);
     }
 
     /**

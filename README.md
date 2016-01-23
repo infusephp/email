@@ -1,5 +1,5 @@
 email
-===============
+=====
 
 [![Build Status](https://travis-ci.org/infusephp/email.svg?branch=master&style=flat)](https://travis-ci.org/infusephp/email)
 [![Coverage Status](https://coveralls.io/repos/infusephp/email/badge.svg?style=flat)](https://coveralls.io/r/infusephp/email)
@@ -22,7 +22,7 @@ Add the email service to your config.php
 ```php
 'services' => [
 	// ...
-	'mailer' => 'App\Email\Mailer'
+	'mailer' => 'App\Email\MailerService'
 	// ...
 ]
 ```

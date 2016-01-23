@@ -19,7 +19,7 @@ class MailerService
 
     public function __invoke($app)
     {
-        return new Mailer($app['config']->get('email'), $app);
+        return new Mailer($app['config']->get('email'));
     }
 
     /**
