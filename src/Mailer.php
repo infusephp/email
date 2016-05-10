@@ -55,12 +55,7 @@ class Mailer
     }
 
     /**
-     * Queues an email.
-     *
-     * @param string $template name of template
-     * @param array  $message
-     *
-     * @return \Infuse\Queue\Message
+     * @deprecated
      */
     public function queueEmail($template, array $message)
     {
@@ -76,6 +71,30 @@ class Mailer
     }
 
     /**
+     * Queues an email to be sent.
+     *
+     * @param array        $message
+     * @param string|false $template     optional template name
+     * @param array        $templateVars optional template variables
+     *
+     * @return array
+     */
+    public function queue(array $message, $template = false, array $templateVars = [])
+    {
+        $message = $this->compressMessage($message);
+        $variables = $this->compressMessage($templateVars);
+
+        $body = [
+            'm' => $message,
+            't' => $template,
+            'v' => $variables,
+        ];
+        $body = json_encode($body);
+
+        return $this->getQueue()->enqueue($body);
+    }
+
+    /**
      * Handles an email message coming off the queue.
      *
      * @param Message $message
@@ -84,9 +103,13 @@ class Mailer
     {
         // uncompress the message variables
         $body = json_decode($message->getBody());
-        $variables = $this->uncompressMessage($body->m);
+        $message = $this->uncompressMessage($body->m);
+        $variables = $message;
+        if (property_exists($body, 'v')) {
+            $variables = $this->uncompressMessage($body->v);
+        }
 
-        $this->send($variables, $body->t, $variables);
+        $this->send($message, $body->t, $variables);
     }
 
     /**

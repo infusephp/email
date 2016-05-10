@@ -64,6 +64,29 @@ class MailerTest extends PHPUnit_Framework_TestCase
         // TODO
     }
 
+    public function testQueue()
+    {
+        $message = [
+            'to' => [
+                [
+                    'email' => 'test@example.com',
+                    'name' => 'Teddy', ],
+                [
+                    'email' => 'test2@example.com',
+                    'name' => 'Not Teddy', ], ],
+            'from_email' => 'from+test@example.com',
+            'from_name' => 'Testing',
+            'html' => '<strong>test</strong>',
+            'text' => 'test',
+        ];
+
+        $message = self::$mailer->queue($message);
+        $this->assertInstanceOf('Infuse\Queue\Message', $message);
+
+        // test if in queue
+        // TODO
+    }
+
     public function testSendEmail()
     {
         $expected = [
