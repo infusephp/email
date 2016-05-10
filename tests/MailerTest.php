@@ -137,4 +137,78 @@ class MailerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("<html>Hello, World!</html>\n", $result[0]['html']);
         $this->assertEquals("Hello, World!\n", $result[0]['text']);
     }
+
+    public function testSend()
+    {
+        $expected = [
+            [
+                'html' => '<strong>test</strong>',
+                'text' => 'test',
+                'from_email' => 'from+test@example.com',
+                'from_name' => 'Testing',
+                'to' => [
+                    [
+                        'email' => 'test@example.com',
+                        'name' => 'Teddy', ],
+                    [
+                        'email' => 'test2@example.com',
+                        'name' => 'Not Teddy', ], ],
+                'to_alt' => [
+                    'test@example.com' => 'Teddy',
+                    'test2@example.com' => 'Not Teddy', ],
+                'status' => 'sent',
+                'email' => 'test@example.com', ],
+            [
+                'html' => '<strong>test</strong>',
+                'text' => 'test',
+                'from_email' => 'from+test@example.com',
+                'from_name' => 'Testing',
+                'to' => [
+                    [
+                        'email' => 'test@example.com',
+                        'name' => 'Teddy', ],
+                    [
+                        'email' => 'test2@example.com',
+                        'name' => 'Not Teddy', ], ],
+                'to_alt' => [
+                    'test@example.com' => 'Teddy',
+                    'test2@example.com' => 'Not Teddy', ],
+                'status' => 'sent',
+                'email' => 'test2@example.com', ], ];
+
+        $message = [
+            'to' => [
+                [
+                    'email' => 'test@example.com',
+                    'name' => 'Teddy', ],
+                [
+                    'email' => 'test2@example.com',
+                    'name' => 'Not Teddy', ], ],
+            'from_email' => 'from+test@example.com',
+            'from_name' => 'Testing',
+            'html' => '<strong>test</strong>',
+            'text' => 'test',
+        ];
+
+        $result = self::$mailer->send($message);
+        foreach ($result as &$line) {
+            unset($line['_id']);
+        }
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testSendTemplate()
+    {
+        $message = [
+            'to' => [
+                [
+                    'email' => 'test@example.com',
+                    'name' => 'Teddy', ], ],
+        ];
+        $vars = ['who' => 'World'];
+        $result = self::$mailer->send($message, 'test', $vars);
+
+        $this->assertEquals("<html>Hello, World!</html>\n", $result[0]['html']);
+        $this->assertEquals("Hello, World!\n", $result[0]['text']);
+    }
 }
