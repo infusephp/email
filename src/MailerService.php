@@ -12,7 +12,7 @@ class MailerService
 
     public function __construct($app)
     {
-        $this->injectApp($app);
+        $this->setApp($app);
 
         Queue::listen(Mailer::QUEUE_NAME, [$this, 'processEmail']);
     }
