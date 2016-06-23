@@ -38,10 +38,10 @@ class SwiftDriver implements DriverInterface
     public function send(array $message)
     {
         // build recipients
-        $from = [$message['from_email'] => $message['from_name']];
         $to = [];
         $bcc = [];
-        foreach ((array) $message['to'] as $item) {
+        $toIncoming = (array) array_value($message, 'to');
+        foreach ($toIncoming as $item) {
             $type = array_value($item, 'type');
             if ($type == 'bcc') {
                 $bcc[$item['email']] = $item['name'];
@@ -50,8 +50,15 @@ class SwiftDriver implements DriverInterface
             }
         }
 
+        if (count($to) === 0) {
+            return [];
+        }
+
+        $fromEmail = array_value($message, 'from_email');
+        $fromName = array_value($message, 'from_name');
+
         $swiftMessage = Swift_Message::newInstance()
-            ->setFrom($from)
+            ->setFrom([$fromEmail => $fromName])
             ->setTo($to)
             ->setBcc($bcc)
             ->setSubject($message['subject'])

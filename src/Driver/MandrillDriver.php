@@ -42,6 +42,11 @@ class MandrillDriver implements DriverInterface
 
     public function send(array $message)
     {
+        $to = (array) array_value($message, 'to');
+        if (count($to) === 0) {
+            return [];
+        }
+
         return $this->mandrill->messages->send($message);
     }
 }

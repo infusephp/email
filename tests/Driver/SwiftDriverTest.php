@@ -67,4 +67,11 @@ class SwiftDriverTest extends PHPUnit_Framework_TestCase
         unset($result[1]['_id']);
         $this->assertEquals($expected, $result);
     }
+
+    public function testSendEmpty()
+    {
+        $transport = Mockery::mock('Swift_Transport');
+        $driver = new SwiftDriver([], $transport);
+        $this->assertEquals([], $driver->send([]));
+    }
 }

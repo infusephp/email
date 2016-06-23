@@ -9,7 +9,8 @@ class NullDriver implements DriverInterface
     public function send(array $message)
     {
         $result = [];
-        foreach ($message['to'] as $item) {
+        $to = (array) array_value($message, 'to');
+        foreach ($to as $item) {
             $result[] = [
                 '_id' => Utility::guid(false),
                 'email' => $item['email'],

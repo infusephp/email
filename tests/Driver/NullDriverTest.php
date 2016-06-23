@@ -48,4 +48,10 @@ class NullDriverTest extends PHPUnit_Framework_TestCase
         unset($result[1]['_id']);
         $this->assertEquals($expected, $result);
     }
+
+    public function testSendEmpty()
+    {
+        $driver = new NullDriver();
+        $this->assertEquals([], $driver->send([]));
+    }
 }

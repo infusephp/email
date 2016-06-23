@@ -58,4 +58,10 @@ class MandrillDriverTest extends PHPUnit_Framework_TestCase
         $result = $driver->send($message);
         $this->assertEquals($expected, $result);
     }
+
+    public function testSendEmpty()
+    {
+        $driver = new MandrillDriver(['key' => 'test']);
+        $this->assertEquals([], $driver->send([]));
+    }
 }
