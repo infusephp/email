@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Email;
+namespace Infuse\Email;
 
 use Infuse\Queue;
 use Infuse\Queue\Message;
@@ -14,9 +14,9 @@ class Mailer
      * @staticvar array
      */
     private static $drivers = [
-        'mandrill' => 'App\Email\Driver\MandrillDriver',
-        'nop' => 'App\Email\Driver\NullDriver',
-        'smtp' => 'App\Email\Driver\SwiftDriver',
+        'mandrill' => 'Infuse\Email\Driver\MandrillDriver',
+        'nop' => 'Infuse\Email\Driver\NullDriver',
+        'smtp' => 'Infuse\Email\Driver\SwiftDriver',
     ];
 
     /**
@@ -25,7 +25,7 @@ class Mailer
     private $settings;
 
     /**
-     * @var App\Email\Driver\DriverInterface
+     * @var Infuse\Email\Driver\DriverInterface
      */
     private $driver;
 

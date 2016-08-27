@@ -1,6 +1,6 @@
 <?php
 
-use App\Email\Driver\NullDriver;
+use Infuse\Email\Driver\NullDriver;
 
 class NullDriverTest extends PHPUnit_Framework_TestCase
 {

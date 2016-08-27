@@ -1,6 +1,6 @@
 <?php
 
-use App\Email\Driver\DriverInterface;
+use Infuse\Email\Driver\DriverInterface;
 use Infuse\Utility;
 
 class TestDriver implements DriverInterface

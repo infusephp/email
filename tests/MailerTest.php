@@ -1,6 +1,6 @@
 <?php
 
-use App\Email\Mailer;
+use Infuse\Email\Mailer;
 use Infuse\Test;
 
 include 'TestDriver.php';
@@ -29,7 +29,7 @@ class MailerTest extends PHPUnit_Framework_TestCase
     public function testTypeDeprecated()
     {
         $mailer = new Mailer(['type' => 'nop']);
-        $this->assertInstanceOf('App\Email\Driver\NullDriver', $mailer->getDriver());
+        $this->assertInstanceOf('Infuse\Email\Driver\NullDriver', $mailer->getDriver());
     }
 
     public function testCompression()

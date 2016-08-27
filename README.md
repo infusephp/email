@@ -22,7 +22,7 @@ Add the email service to your config.php
 ```php
 'services' => [
 	// ...
-	'mailer' => 'App\Email\MailerService'
+	'mailer' => 'Infuse\Email\MailerService'
 	// ...
 ]
 ```

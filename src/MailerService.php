@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Email;
+namespace Infuse\Email;
 
 use Infuse\HasApp;
 use Infuse\Queue;

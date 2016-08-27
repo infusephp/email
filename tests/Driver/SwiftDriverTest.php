@@ -1,6 +1,6 @@
 <?php
 
-use App\Email\Driver\SwiftDriver;
+use Infuse\Email\Driver\SwiftDriver;
 
 class SwiftDriverTest extends PHPUnit_Framework_TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Email\Driver;
+namespace Infuse\Email\Driver;
 
 use Mandrill;
 

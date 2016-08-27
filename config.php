@@ -5,11 +5,11 @@ return [
         'views' => __DIR__.'/tests/views',
     ],
     'services' => [
-        'mailer' => 'App\Email\MailerService',
+        'mailer' => 'Infuse\Email\MailerService',
         'queue_driver' => 'Infuse\Services\QueueDriver',
     ],
     'email' => [
-        'driver' => 'App\Email\Driver\NullDriver',
+        'driver' => 'Infuse\Email\Driver\NullDriver',
     ],
     'queue' => [
         'driver' => 'Infuse\Queue\Driver\SynchronousDriver',

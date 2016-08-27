@@ -1,6 +1,6 @@
 <?php
 
-use App\Email\Driver\MandrillDriver;
+use Infuse\Email\Driver\MandrillDriver;
 
 class MandrillDriverTest extends PHPUnit_Framework_TestCase
 {
