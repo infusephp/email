@@ -17,9 +17,11 @@ class SwiftDriver implements DriverInterface
     public function __construct(array $settings, $transport = null)
     {
         if (!$transport) {
-            $transport = Swift_SmtpTransport::newInstance($settings['host'], $settings['port'])
-                ->setUsername($settings['username'])
-                ->setPassword($settings['password']);
+            $transport = Swift_SmtpTransport::newInstance($settings['host'], $settings['port']);
+            if (array_key_exists('username', $settings) && array_key_exists('password', $settings)) {
+                $transport->setUsername($settings['username'])
+                    ->setPassword($settings['password']);
+            }
         }
 
         $this->swift = Swift_Mailer::newInstance($transport);

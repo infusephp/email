@@ -1,6 +1,7 @@
 <?php
 
 use Infuse\Email\Driver\SwiftDriver;
+use Swift_SmtpTransport;
 
 class SwiftDriverTest extends PHPUnit_Framework_TestCase
 {
@@ -14,6 +15,17 @@ class SwiftDriverTest extends PHPUnit_Framework_TestCase
         ];
         $driver = new SwiftDriver($settings);
 
+        $this->assertInstanceOf('Swift_Mailer', $driver->getSwift());
+    }
+
+    public function testGetSwiftWithoutAuth()
+    {
+        $settings = [
+            'host' => 'localhost',
+            'port' => '25'
+        ];
+
+        $driver = new SwiftDriver($settings);
         $this->assertInstanceOf('Swift_Mailer', $driver->getSwift());
     }
 
