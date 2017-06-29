@@ -1,7 +1,6 @@
 <?php
 
 use Infuse\Email\Mailer;
-use Infuse\Test;
 
 include 'TestDriver.php';
 
