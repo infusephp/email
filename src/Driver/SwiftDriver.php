@@ -3,6 +3,7 @@
 namespace Infuse\Email\Driver;
 
 use Infuse\Utility;
+use Swift_Attachment;
 use Swift_Mailer;
 use Swift_Message;
 use Swift_SmtpTransport;
@@ -75,6 +76,17 @@ class SwiftDriver implements DriverInterface
 
             foreach ($message['headers'] as $k => $v) {
                 $headers->addTextHeader($k, $v);
+            }
+        }
+
+        if (isset($message['attachments']) && is_array($message['attachments'])) {
+            foreach ($message['attachments'] as $_attachment) {
+                $attachment = Swift_Attachment::newInstance();
+                $attachment->setFilename($_attachment['name'])
+                    ->setContentType($_attachment['type'])
+                    ->setBody($_attachment['content']);
+
+                $swiftMessage->attach($attachment);
             }
         }
 
