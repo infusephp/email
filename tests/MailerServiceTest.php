@@ -2,8 +2,9 @@
 
 use Infuse\Email\MailerService;
 use Infuse\Test;
+use PHPUnit\Framework\TestCase;
 
-class MailerServiceTest extends PHPUnit_Framework_TestCase
+class MailerServiceTest extends TestCase
 {
     public function testService()
     {

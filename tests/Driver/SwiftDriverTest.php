@@ -1,8 +1,9 @@
 <?php
 
 use Infuse\Email\Driver\SwiftDriver;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-class SwiftDriverTest extends PHPUnit_Framework_TestCase
+class SwiftDriverTest extends MockeryTestCase
 {
     public function testGetSwift()
     {

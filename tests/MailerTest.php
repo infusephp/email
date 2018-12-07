@@ -1,10 +1,11 @@
 <?php
 
 use Infuse\Email\Mailer;
+use PHPUnit\Framework\TestCase;
 
 include 'TestDriver.php';
 
-class MailerTest extends PHPUnit_Framework_TestCase
+class MailerTest extends TestCase
 {
     private static $mailer;
     private static $qListeners;

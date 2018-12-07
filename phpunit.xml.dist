@@ -5,6 +5,7 @@
 
   <listeners>
     <listener class="Infuse\Test"></listener>
+    <listener class="Mockery\Adapter\Phpunit\TestListener"></listener>
   </listeners>
 
   <testsuites>
@@ -15,12 +16,15 @@
 
   <logging>
     <log type="coverage-clover" target="build/logs/clover.xml"/>
-    <log type="coverage-text" target="php://stdout" lowUpperBound="35" highLowerBound="70"/>
+    <log type="coverage-text" target="php://stdout" lowUpperBound="35" highLowerBound="70" showOnlySummary="true"/>
   </logging>
 
   <filter>
     <whitelist addUncoveredFilesFromWhitelist="true">
       <directory suffix=".php">src</directory>
+      <exclude>
+        <directory suffix=".php">src/migrations</directory>
+      </exclude>
     </whitelist>
   </filter>
 </phpunit>

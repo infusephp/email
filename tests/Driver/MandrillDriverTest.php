@@ -1,8 +1,9 @@
 <?php
 
 use Infuse\Email\Driver\MandrillDriver;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
 
-class MandrillDriverTest extends PHPUnit_Framework_TestCase
+class MandrillDriverTest extends MockeryTestCase
 {
     public function testMandrill()
     {

@@ -1,8 +1,9 @@
 <?php
 
 use Infuse\Email\Driver\NullDriver;
+use PHPUnit\Framework\TestCase;
 
-class NullDriverTest extends PHPUnit_Framework_TestCase
+class NullDriverTest extends TestCase
 {
     public function testSend()
     {
